@@ -30,7 +30,7 @@ jobs:
 
       - name: Build
         run: |
-          if [ -n "${{ github.event.pull_request.number }}"]; then
+          if [ -n "${{ github.event.pull_request.number }}" ]; then
             BASE_URL=/vv-preview-bot/pr-${{ github.event.pull_request.number }}
           else
             BASE_URL=/vv-preview-bot/${{ github.base_ref }}
