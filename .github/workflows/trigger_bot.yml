@@ -4,6 +4,9 @@ on:
   pull_request_target:
     types:
       - synchronize
+  push:
+    branches:
+      - main
 
 jobs:
   trigger:
@@ -11,5 +14,5 @@ jobs:
     steps:
       - name: Trigger Bot
         run: |
-          GITHUB_TOKEN=${{ secrets.MY_TOKEN }} gh workflow run -R sevenc-nanashi/vv-preview-bot update_pages.yml
+          GITHUB_TOKEN=${{ secrets.MY_TOKEN }} gh workflow run -R sevenc-nanashi/vv-preview-demo-bot update_pages.yml
 
