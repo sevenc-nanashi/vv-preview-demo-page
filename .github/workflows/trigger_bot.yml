@@ -1,0 +1,15 @@
+name: "Trigger Bot"
+
+on:
+  pull_request_target:
+    types:
+      - synchronize
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Bot
+        run: |
+          GITHUB_TOKEN=${{ secrets.MY_TOKEN }} gh workflow run -R sevenc-nanashi/vv-preview-bot update_pages.yml
+

@@ -1,0 +1,41 @@
+name: "Build Page"
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - synchronize
+
+jobs:
+  update_pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install Dependencies
+        run: |
+          npm install -g pnpm
+          pnpm install
+
+      - name: Build
+        run: |
+          if [ -n "${{ github.event.pull_request.number }}"]; then
+            BASE_URL=/vv-preview-bot/pr-${{ github.event.pull_request.number }}
+          else
+            BASE_URL=/vv-preview-bot/${{ github.base_ref }}
+          fi
+          pnpm run build --base=$BASE_URL
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: page-dist
+          path: dist
